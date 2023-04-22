@@ -1,0 +1,71 @@
+name: Plan On PR
+
+on:
+  pull_request:
+    paths:
+      - 'dummy/**'
+      - '.github/workflows/testing-condition.yaml'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+jobs:
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+#
+#    strategy:
+#      matrix:
+#        env:
+#          - "dev"
+#          - "prod"
+#        dirs:
+#          - dummy
+#        exclude:
+#          - env: ${{ github.base_ref == 'main' && 'dev' || github.base_ref == 'develop' &&  'prod' }}
+    strategy:
+      matrix:
+        env:
+          - account: "1234567890"
+            name: "dev"
+          - account: "0987654321"
+            name: "prod"
+        dirs:
+          - dummy
+        exclude:
+          - env:
+              - account: "1234567890"
+                name: "dev"
+            if: github.base_ref == 'main'
+          - env:
+              - account: "0987654321"
+                name: "prod"
+            if: github.base_ref == 'develop'
+
+
+    steps:
+      - name: Show GitHub context ${{ matrix.env }} test
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "${GITHUB_CONTEXT}" | jq
+
+      - name: checkout git repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.1
+
+      - name: Terraform Init
+        id: init
+        run:  terraform init
+        working-directory: ${{ format('{0}' , matrix.dirs) }}
+
+      - name: Terraform Plan - ${{ matrix.env.name }}
+        id: plan
+        run: terraform plan
+        working-directory: ${{ format('{0}' , matrix.dirs) }}
