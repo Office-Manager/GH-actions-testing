@@ -25,6 +25,7 @@ jobs:
           - dummy
         exclude:
           - env: ${{ github.base_ref == 'refs/heads/main' && 'something' || 'dev' }}
+          - env: ${{ github.base_ref == 'refs/heads/develop' && 'something' || 'prod' }}
 
 
 
