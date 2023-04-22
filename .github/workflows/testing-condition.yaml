@@ -13,7 +13,6 @@ env:
 jobs:
   plan:
     name: Plan
-    needs: format
     runs-on: ubuntu-latest
 
     strategy:
