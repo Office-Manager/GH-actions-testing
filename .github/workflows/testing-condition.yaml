@@ -24,7 +24,7 @@ jobs:
         dirs:
           - dummy
         exclude:
-          - env: ${{ github.base_ref == 'main' && 'dev' || 'prod' }}
+          - env: ${{ github.base_ref == 'main' && 'dev' || github.base_ref == 'develop' &&  'prod' }}
 
 
 
