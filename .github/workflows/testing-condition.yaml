@@ -22,16 +22,19 @@ jobs:
             name: "dev"
             exclude:
               - if: github.base_ref != 'develop'
+              - if: github.base_ref == 'main'
                 name: "dev"
                 account: "1234567890"
           - account: "0987654321"
             name: "prod"
             exclude:
               - if: github.base_ref != 'main'
+              - if: github.base_ref == 'develop'
                 name: "prod"
                 account: "0987654321"
         dirs:
           - dummy
+
 
     steps:
       - name: Show GitHub context
