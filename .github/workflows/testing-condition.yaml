@@ -31,7 +31,7 @@ jobs:
 
 
     steps:
-      - name: Show GitHub context
+      - name: Show GitHub context ${{ matrix.env }}
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
