@@ -15,16 +15,29 @@ jobs:
   plan:
     name: Plan
     runs-on: ubuntu-latest
-
+#
+#    strategy:
+#      matrix:
+#        env:
+#          - "dev"
+#          - "prod"
+#        dirs:
+#          - dummy
+#        exclude:
+#          - env: ${{ github.base_ref == 'refs/heads/main' && 'dummy' || 'dev' }}
     strategy:
       matrix:
         env:
-          - "dev"
-          - "prod"
+          - account: "1234567890"
+            name: "dev"
+          - account: "0987654321"
+            name: "prod"
         dirs:
           - dummy
         exclude:
-          - env: ${{ github.base_ref == 'refs/heads/main' && 'dummy' || 'prod' }}
+          - env: ${{ github.base_ref == 'refs/heads/main' && {account: "1234567890", name: "dev"} || {account: "0987654321", name: "prod"} }}
+
+
 
     steps:
       - name: Show GitHub context
