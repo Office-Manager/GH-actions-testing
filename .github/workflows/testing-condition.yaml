@@ -35,10 +35,14 @@ jobs:
         dirs:
           - dummy
         exclude:
-          - env: account=1234567890 name=dev
+          - env:
+              - account: "1234567890"
+                name: "dev"
             dirs: dummy
             if: github.base_ref == 'refs/heads/main'
-          - env: account=0987654321 name=prod
+          - env:
+              - account: "0987654321"
+                name: "prod"
             dirs: dummy
             if: github.base_ref != 'refs/heads/main'
 
