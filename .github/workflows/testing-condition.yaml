@@ -20,18 +20,10 @@ jobs:
         env:
           - account: "1234567890"
             name: "dev"
-            exclude:
-              - if: github.base_ref != 'develop'
-              - if: github.base_ref == 'main'
-                name: "dev"
-                account: "1234567890"
+            if: github.base_ref == 'develop'
           - account: "0987654321"
             name: "prod"
-            exclude:
-              - if: github.base_ref != 'main'
-              - if: github.base_ref == 'develop'
-                name: "prod"
-                account: "0987654321"
+            if: github.base_ref == 'main'
         dirs:
           - dummy
 
