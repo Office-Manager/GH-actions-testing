@@ -51,9 +51,9 @@ jobs:
       - name: Terraform Init
         id: init
         run:  terraform init
-        working-directory: ${{ format('accounts/finance/infrastructure/{0}' , matrix.dirs) }}
+        working-directory: ${{ format('{0}' , matrix.dirs) }}
 
       - name: Terraform Plan - ${{ matrix.env.name }}
         id: plan
         run: terraform plan
-        working-directory: ${{ format('accounts/finance/infrastructure/{0}' , matrix.dirs) }}
+        working-directory: ${{ format('{0}' , matrix.dirs) }}
